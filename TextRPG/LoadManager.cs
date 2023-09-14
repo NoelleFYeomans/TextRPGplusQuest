@@ -20,6 +20,8 @@ namespace TextRPG
 
         private EnemyManager enemyManager;
 
+        private QuestManager questManager;
+
         private MiniMap miniMap;
 
         private Player player;
@@ -30,7 +32,7 @@ namespace TextRPG
 
         private MapGenerator mapGen;
 
-        public LoadManager(GameManager gManager, Render render, Camera cam, Exit exit, ItemManager itemManager, EnemyManager enemyManager, MiniMap miniMap, Player player, Hud hud, Map map, MapGenerator mapGen)
+        public LoadManager(GameManager gManager, Render render, Camera cam, Exit exit, ItemManager itemManager, EnemyManager enemyManager, MiniMap miniMap, Player player, Hud hud, Map map, MapGenerator mapGen, QuestManager questManager)
         {
             this.gManager = gManager;
             this.render = render;
@@ -38,6 +40,7 @@ namespace TextRPG
             this.exit = exit;
             this.itemManager = itemManager;
             this.enemyManager = enemyManager;
+            this.questManager = questManager;
             this.miniMap = miniMap;
             this.player = player;
             this.hud = hud;
@@ -46,18 +49,19 @@ namespace TextRPG
             Globals.currentFloor = 1;
         }
 
-        public void FloorSetUp()                    //
-        {                                           //
-            render.setHud(hud);                     //
-            render.setCam(cam);                     //
-            render.setMiniMap(miniMap);             //
-            cam.Update();                           //
-            exit.PlaceExit(player);                 //  SetUp
-            itemManager.GenerateItems(player);      //
-            enemyManager.GenerateEnemies(player);   //
-            miniMap.Update();                       //
-            gManager.Draw();                        //
-        }                                           //
+        public void FloorSetUp()                                 // IMPORTANT
+        {                                                        //
+            render.setHud(hud);                                  //
+            render.setCam(cam);                                  //
+            render.setMiniMap(miniMap);                          //
+            cam.Update();                                        //
+            exit.PlaceExit(player);                              //  SetUp
+            itemManager.GenerateItems(player);                   //
+            enemyManager.GenerateEnemies(player);                //
+            questManager.generateRandomQuest(enemyManager.getSlimeCount(), enemyManager.getKoboldCount(), enemyManager.getGoblinCount(), Globals.currentFloor); //feeding number of enemies into questManager
+            miniMap.Update();                                    //
+            gManager.Draw();                                     //
+        }                                                        //
 
         public void BossSetUp()
         {

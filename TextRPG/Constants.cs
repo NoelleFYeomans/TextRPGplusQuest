@@ -39,7 +39,7 @@ namespace TextRPG
         //Kobold Settings
         public const int koboldBaseHP = 3;
         public const int koboldBaseAttack = 1;
-        public const int koboldXP = 2;
+        public const int koboldXP = 5;
         public static Tile koboldSprite = new Tile('X', ConsoleColor.DarkRed, ConsoleColor.Black);
         public const string koboldName = "Kobold";
 

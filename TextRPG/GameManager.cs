@@ -24,6 +24,8 @@ namespace TextRPG
 
         public static ItemManager itemManager;
 
+        public static QuestManager questManager; //manages la questa
+
         static InputManager inputManager;
 
         public static Hud hud;
@@ -58,7 +60,8 @@ namespace TextRPG
             miniMap = new MiniMap(mapGen.makeMiniMap(), player);
             hud = new Hud(player, enemyManager, itemManager, this);
             cam = new Camera(player, this);
-            loadManager = new LoadManager(this, render, cam, exit, itemManager, enemyManager, miniMap, player, hud, map, mapGen);
+            questManager = new QuestManager(hud);
+            loadManager = new LoadManager(this, render, cam, exit, itemManager, enemyManager, miniMap, player, hud, map, mapGen, questManager);
             
         }
 
@@ -77,7 +80,7 @@ namespace TextRPG
             miniMap.Update();               //
         }
         
-        public void Play()
+        public void Play() //this is the game loop
         {
             startScreen.Display();
             loadManager.FloorSetUp();

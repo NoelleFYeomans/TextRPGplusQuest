@@ -21,6 +21,30 @@ namespace TextRPG
         private Hud hud;
         private SoundManager soundManager;
 
+        private int slimeCount; //int for counting slimes
+        private int koboldCount; //int for counting kobolds
+        private int goblinCount; //int for counding goblins
+        
+
+        public int getSlimeCount() //allowing questManager to access this info
+        {
+            return slimeCount;
+        }
+        public int getKoboldCount()
+        {
+            return koboldCount;
+        }
+        public int getGoblinCount()
+        {
+            return goblinCount;
+        }
+
+        private void resetCount() //resets count for all enemies
+        {
+            slimeCount = 0;
+            koboldCount = 0;
+            goblinCount = 0;
+        }
 
         public void SetHud(Hud hud)
         {
@@ -41,6 +65,7 @@ namespace TextRPG
         {
             Position tempPos;
             ClearEnemies();
+            resetCount();
             int placedEnemies = 0;
             while(placedEnemies < Constants.EnemyAmount)
             {
@@ -53,17 +78,20 @@ namespace TextRPG
                         case 0:
                         case 1:
                             enemies.Add(new Slime(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager));
+                            slimeCount++;
                             placedEnemies++;
                             enemyMap[tempPos.x, tempPos.y] = enemies[placedEnemies - 1];
                             break;
                         case 2:
                         case 3:
                             enemies.Add(new Kobold(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager));
+                            koboldCount++;
                             placedEnemies++;
                             enemyMap[tempPos.x, tempPos.y] = enemies[placedEnemies - 1];
                             break;
                         case 4:
                             enemies.Add(new Goblin(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager));
+                            goblinCount++;
                             placedEnemies++;
                             enemyMap[tempPos.x, tempPos.y] = enemies[placedEnemies - 1];
                             break;
@@ -119,6 +147,7 @@ namespace TextRPG
                 enemy.Draw();
             }
         }
+
 
         public void RemoveEnemy(Enemy enemy)    //Removes enemy from enemies array
         {

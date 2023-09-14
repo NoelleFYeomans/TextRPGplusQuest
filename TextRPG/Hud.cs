@@ -39,7 +39,7 @@ namespace TextRPG
             }
 
 
-            //Set Message Box
+            //Set Message Box //STOP HERE NOELLE, THIS IS WHERE THE TEXT IS SET@!!!!!!!!!!!!!!!
             int messageIndex = 0;
             for (int i = 0; i <= Constants.messageBoxHeight; i++)
             {
