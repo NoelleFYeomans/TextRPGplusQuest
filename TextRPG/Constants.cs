@@ -43,6 +43,12 @@ namespace TextRPG
         public static Tile koboldSprite = new Tile('X', ConsoleColor.DarkRed, ConsoleColor.Black);
         public const string koboldName = "Kobold";
 
+        //Shopkeep Settings
+        public const int shopkeepBaseHP = 1000;
+        public const int shopkeepBaseAttack = 100;
+        public static Tile shopkeepSprite = new Tile('$', ConsoleColor.Yellow, ConsoleColor.Black);
+        public const string shopkeepName = "Shopkeep";
+
         //Boss Settings
         public const int bossBaseHP = 150;
         public const int bossBaseAttack = 3;
