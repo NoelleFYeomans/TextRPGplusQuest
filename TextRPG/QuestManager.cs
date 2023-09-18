@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
-    internal class QuestManager
+    internal class QuestManager //full functionality!
     {
         //ints needed for quest generation
         private int questKillGoal; //goal for quest
@@ -15,58 +16,98 @@ namespace TextRPG
         private int questKillMin; //should be 5?
         private int questExpReward; //genned randomly
         private int expMultiplier; //based by floor. 2x floor 1, 3x floor 2, 3x floor 3?
+        private bool isQuestComplete; //is the quest complete?
+        private bool isBossFloor;
+        private int cFloor;
+
+        Player player;
 
         Random rand = new Random(); //random used for quest generation
-
         Hud hud;
 
         private enum eType
         {
-            Slimes,
-            Kobolds,
-            Goblins
+            Slime,
+            Kobold,
+            Goblin
         }
 
-        public QuestManager(Hud hud) //useful if I added multiple quests?
+        ////for kill tracking
+        eType questEnemy;
+        private int kGoal;
+
+        public QuestManager() //useful if I added multiple quests?
         {
-            this.hud = hud; //gives access to the HUD
-        }
 
+            isQuestComplete = false;
+            isBossFloor = false;
+        }
+        public void update()
+        {
+            if (cFloor > 2) isBossFloor = true;
+
+            if ((hud.message == " ") && (!isQuestComplete) && (isBossFloor ==  false))
+            {
+                hud.SetMessage("Quest: Kill " + (kGoal - questKillTracker) + " " + questEnemy.ToString());
+            }
+            else if ((hud.message == " ") && isQuestComplete && (isBossFloor == false))
+            {
+                hud.SetMessage("You completed the quest! +" + questExpReward + " XP!");
+            }
+        }
+        public void SetHud(Hud hud) //hud access
+        {
+            this.hud = hud;
+        }
+        public void setPlayer(Player player)
+        {
+            this.player = player;
+        }
+        public void tryIncrementQuest(Enemy enemy)
+        {
+            if (enemy.GetName() == questEnemy.ToString())
+            {
+                questKillTracker++;//increment quest kill counter
+                //write to status
+                if (questKillTracker >= questKillGoal) 
+                {
+                    isQuestComplete = true;
+                    applyQuestRewards();
+                }
+            }
+        }
+        private void applyQuestRewards()
+        {
+            player.giveXP(questExpReward);
+            player.questLevelUp();
+        }
         public void generateRandomQuest(int slimeMax, int koboldMax, int goblinMax, int floor)//create a random quest (kill x enemies) and receive a reward(XP) (and maybe check to levelup multiple times, just incase)
         {
-            resetAllValues(); //rese value before making a new quest
+            cFloor = floor;
+            resetAllValues(); //resets value before making a new quest
 
             eType chosenEnemy = pickEnemy(); //picks random enemy
+            questEnemy = chosenEnemy; //set chosen quest eType for rest of class to access
 
             switch  (chosenEnemy) //generates quest based on enemy chosen
             {
-                case eType.Slimes:
+                case eType.Slime:
                     createQuestSpecs(slimeMax, floor);
                     break;
-;               case eType.Kobolds:
+;               case eType.Kobold:
                     createQuestSpecs(koboldMax, floor);
                     break;
-                case eType.Goblins:
+                case eType.Goblin:
                     createQuestSpecs(goblinMax, floor);
                     break;
             }
 
             startQuest(questKillGoal, chosenEnemy);
         }
-
-        private void startQuest(float goal, eType chosen) //displays a message to player about the start of a quest
+        private void startQuest(int goal, eType chosen) //displays a message to player about the start of a quest
         {
-            hud.SetMessage("Quest: Kill " + goal + " " + chosen.ToString()); //maybe keep a live kill tracker in the updoot?
-            //start tracking kills
-        }
-        private void questComplete() //used when a quest is completed
-        {
-            hud.SetMessage("Quest Complete! Reward: " + questExpReward + " XP"); //only display once
-            //levelup check
-        }
-        private void update()
-        {
-            //updates when killing an enemy
+            kGoal = goal;
+            hud.SetMessage("Quest: Kill " + goal + " " + chosen.ToString());
         }
         private void createQuestSpecs(int max, int floor) //creates the numerical specs of the quest
         {
@@ -90,6 +131,7 @@ namespace TextRPG
             questExpReward = 0;
             questKillMin = 0;
             expMultiplier = 0;
+            isQuestComplete = false;
         }
 
 

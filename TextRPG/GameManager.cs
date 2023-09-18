@@ -50,18 +50,19 @@ namespace TextRPG
             endScreen = new EndScreen(soundManager);
             render = new Render();
             mapGen = new MapGenerator();
+            questManager = new QuestManager();
             render.setGameManager(this);
             inputManager = new InputManager(this);
             map = new Map(mapGen.RandomizeMap(), render);
             exit = new Exit(this, render, map);
             itemManager = new ItemManager(map, render, this, exit, soundManager);
-            enemyManager = new EnemyManager(map, render, itemManager, this, exit, soundManager);
+            enemyManager = new EnemyManager(map, render, itemManager, this, exit, soundManager, questManager);
             player = new Player(new Position((Constants.mapWidth/2) * Constants.roomWidth + (Constants.roomWidth/2), (Constants.mapHeight / 2) * Constants.roomHeight + (Constants.roomHeight / 2)), map, enemyManager, render, this, inputManager, itemManager, exit, soundManager);
             miniMap = new MiniMap(mapGen.makeMiniMap(), player);
-            hud = new Hud(player, enemyManager, itemManager, this);
             cam = new Camera(player, this);
-            questManager = new QuestManager(hud);
+            hud = new Hud(player, enemyManager, itemManager, this, questManager);
             loadManager = new LoadManager(this, render, cam, exit, itemManager, enemyManager, miniMap, player, hud, map, mapGen, questManager);
+            questManager.setPlayer(player); //don't ask
             
         }
 
@@ -72,11 +73,12 @@ namespace TextRPG
             {                               //  End game if player is dead
                 play = false;               //
             }                               //
-            
+                                            //
             inputManager.Update();          //
             player.Update();                //  Update everything
             cam.Update();                   //
             enemyManager.UpdateEnemies();   //
+            if (Globals.currentFloor < 3) questManager.update();          //
             miniMap.Update();               //
         }
         

@@ -160,6 +160,15 @@ namespace TextRPG
             ATK++;
         }
 
+        public void questLevelUp()
+        {
+            while (XP >= Constants.playerXPThreshold)
+            {
+                XP -= Constants.playerXPThreshold;
+                LevelUp();
+            }
+        }
+
         public void giveXP(int reward)
         {
             XP += reward;

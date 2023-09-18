@@ -58,7 +58,7 @@ namespace TextRPG
             exit.PlaceExit(player);                              //  SetUp
             itemManager.GenerateItems(player);                   //
             enemyManager.GenerateEnemies(player);                //
-            questManager.generateRandomQuest(enemyManager.getSlimeCount(), enemyManager.getKoboldCount(), enemyManager.getGoblinCount(), Globals.currentFloor); //feeding number of enemies into questManager
+            if (Globals.currentFloor < 3) questManager.generateRandomQuest(enemyManager.getSlimeCount(), enemyManager.getKoboldCount(), enemyManager.getGoblinCount(), Globals.currentFloor); //feeding number of enemies into questManager
             miniMap.Update();                                    //
             gManager.Draw();                                     //
         }                                                        //

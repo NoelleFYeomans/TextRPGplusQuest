@@ -11,13 +11,16 @@ namespace TextRPG
         private Player player;
         private EnemyManager enemyManager;
         private Enemy enemy;
-        private string message;
+        public string message;
         private GameManager manager;
+        private QuestManager questManager;
 
         public Tile[,] hudArray = new Tile[Constants.messageBoxHeight + Constants.statsHeight + 2,Constants.hudWidth + 1];
 
-        public Hud(Player player, EnemyManager enemyManager, ItemManager itemManager, GameManager manager)
+        public Hud(Player player, EnemyManager enemyManager, ItemManager itemManager, GameManager manager, QuestManager questManager)
         {
+            this.questManager = questManager;
+            this.questManager.SetHud(this);
             this.player = player;
             this.player.SetHud(this);
             this.enemyManager = enemyManager;

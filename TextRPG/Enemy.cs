@@ -24,7 +24,10 @@ namespace TextRPG
 
         protected int XPReward;
 
-        public Enemy(Position pos, int HP, int ATK, Tile sprite, string name, Map map, Player player, EnemyManager enemyManager, ItemManager itemManager, Render rend, GameManager manager, Hud hud, Exit exit, int XPReward, SoundManager soundManager) : base(pos, HP, ATK, sprite, map, enemyManager, rend, manager, soundManager)
+        protected QuestManager questManager;
+        
+
+        public Enemy(Position pos, int HP, int ATK, Tile sprite, string name, Map map, Player player, EnemyManager enemyManager, ItemManager itemManager, Render rend, GameManager manager, Hud hud, Exit exit, int XPReward, SoundManager soundManager, QuestManager questManager) : base(pos, HP, ATK, sprite, map, enemyManager, rend, manager, soundManager)
         {
             this.name = name;
             this.player = player;
@@ -32,6 +35,7 @@ namespace TextRPG
             this.hud = hud;
             this.exit = exit;
             this.XPReward = XPReward;
+            this.questManager = questManager;
         }
 
         public abstract void Update();
@@ -100,6 +104,7 @@ namespace TextRPG
             base.TakeDMG(DMG);
             if (HP <= 0)
             {
+                questManager.tryIncrementQuest(this);
                 enemyManager.RemoveEnemy(this);
                 player.giveXP(XPReward);
             }
