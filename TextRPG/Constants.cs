@@ -48,7 +48,7 @@ namespace TextRPG
         public const int shopkeepBaseAttack = 100;
         public const int powerOfBlood = 5;
         public const int keeperCap = 3;
-        public static Tile shopkeepSprite = new Tile('⛤', ConsoleColor.DarkRed, ConsoleColor.Black);
+        public static Tile shopkeepSprite = new Tile('$', ConsoleColor.DarkRed, ConsoleColor.Black);
         public const string shopkeepName = "Shopkeep";
 
         //Boss Settings

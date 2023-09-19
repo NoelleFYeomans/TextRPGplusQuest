@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
-    internal class Shopkeep : GameCharacter //proper character & color, trade is broken ***TODO LIST***
+    internal class Shopkeep : GameCharacter //trade is broken ***TODO LIST***
     {
         private Player player;
         private ItemManager itemManager;
@@ -20,7 +20,7 @@ namespace TextRPG
         private bool trading;
         private int bloodPaid;
 
-        public Shopkeep(Position pos, Map map, EnemyManager enemyManager, Render rend, GameManager manager, InputManager inputManager, ItemManager itemManager, Exit exit, SoundManager soundManager, Player player, Hud hud) : base(pos, Constants.playerBaseHP, Constants.playerBaseAttack, Constants.playerSprite, map, enemyManager, rend, manager, soundManager)
+        public Shopkeep(Position pos, Map map, EnemyManager enemyManager, Render rend, GameManager manager, InputManager inputManager, ItemManager itemManager, Exit exit, SoundManager soundManager, Player player, Hud hud) : base(pos, Constants.shopkeepBaseHP, Constants.shopkeepBaseAttack, Constants.shopkeepSprite, map, enemyManager, rend, manager, soundManager) 
         {
             this.itemManager = itemManager;
             this.inputManager = inputManager;
