@@ -22,6 +22,8 @@ namespace TextRPG
 
         private QuestManager questManager;
 
+        private ShopManager shopManager;
+
         private MiniMap miniMap;
 
         private Player player;
@@ -32,7 +34,7 @@ namespace TextRPG
 
         private MapGenerator mapGen;
 
-        public LoadManager(GameManager gManager, Render render, Camera cam, Exit exit, ItemManager itemManager, EnemyManager enemyManager, MiniMap miniMap, Player player, Hud hud, Map map, MapGenerator mapGen, QuestManager questManager)
+        public LoadManager(GameManager gManager, Render render, Camera cam, Exit exit, ItemManager itemManager, EnemyManager enemyManager, MiniMap miniMap, Player player, Hud hud, Map map, MapGenerator mapGen, QuestManager questManager, ShopManager shopManager)
         {
             this.gManager = gManager;
             this.render = render;
@@ -47,6 +49,7 @@ namespace TextRPG
             this.map = map;
             this.mapGen = mapGen;
             Globals.currentFloor = 1;
+            this.shopManager = shopManager;
         }
 
         public void FloorSetUp()                                 // IMPORTANT
@@ -58,6 +61,7 @@ namespace TextRPG
             exit.PlaceExit(player);                              //  SetUp
             itemManager.GenerateItems(player);                   //
             enemyManager.GenerateEnemies(player);                //
+            shopManager.generateShopkeep(player);                //
             if (Globals.currentFloor < 3) questManager.generateRandomQuest(enemyManager.getSlimeCount(), enemyManager.getKoboldCount(), enemyManager.getGoblinCount(), Globals.currentFloor); //feeding number of enemies into questManager
             miniMap.Update();                                    //
             gManager.Draw();                                     //

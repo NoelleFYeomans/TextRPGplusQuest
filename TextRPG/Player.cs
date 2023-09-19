@@ -13,6 +13,7 @@ namespace TextRPG
         private int maxShield = Constants.playerBaseShield;
         private InputManager inputManager;
         private ItemManager itemManager;
+        private ShopManager shopManager;
         private Exit exit;
         private Hud hud;
         private int XP = 0;
@@ -48,7 +49,7 @@ namespace TextRPG
                     targetPos.x++;                                                                          //
                     break;                                                                              //
             }                                                                                           //
-            if(map.isFloorAt(targetPos) && enemyManager.EnemyAt(targetPos, false) == null && itemManager.ItemAt(targetPos) == null)    //
+            if(map.isFloorAt(targetPos) && enemyManager.EnemyAt(targetPos, false) == null && itemManager.ItemAt(targetPos) == null && shopManager.keeperAt(targetPos) == null)    //
             {                                                                                                                                               //  Move if empty floor
                 pos = targetPos;                                                                                                                            //
             }else if (enemyManager.EnemyAt(targetPos, false) != null)    //
@@ -57,9 +58,16 @@ namespace TextRPG
             }else if (itemManager.ItemAt(targetPos) != null)                 //
             {                                                                       //  Pick Up item in target space
                 itemManager.PickUp(itemManager.ItemAt(targetPos), this);     //
-            }                                                                       //
+            }else if (shopManager.keeperAt(targetPos) != null){
+                //no mova
+            }
 
             exit.isExitAt(targetPos, true);
+        }
+
+        public void getShopManager(ShopManager shopManager)
+        {
+            this.shopManager = shopManager;
         }
 
         public bool isPlayerAt(Position pos)   //returns true if the provided coordinates are the player's coordinates

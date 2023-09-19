@@ -25,9 +25,11 @@ namespace TextRPG
         protected int XPReward;
 
         protected QuestManager questManager;
+
+        protected ShopManager shopManager;
         
 
-        public Enemy(Position pos, int HP, int ATK, Tile sprite, string name, Map map, Player player, EnemyManager enemyManager, ItemManager itemManager, Render rend, GameManager manager, Hud hud, Exit exit, int XPReward, SoundManager soundManager, QuestManager questManager) : base(pos, HP, ATK, sprite, map, enemyManager, rend, manager, soundManager)
+        public Enemy(Position pos, int HP, int ATK, Tile sprite, string name, Map map, Player player, EnemyManager enemyManager, ItemManager itemManager, Render rend, GameManager manager, Hud hud, Exit exit, int XPReward, SoundManager soundManager, QuestManager questManager, ShopManager shopManager) : base(pos, HP, ATK, sprite, map, enemyManager, rend, manager, soundManager)
         {
             this.name = name;
             this.player = player;
@@ -36,6 +38,7 @@ namespace TextRPG
             this.exit = exit;
             this.XPReward = XPReward;
             this.questManager = questManager;
+            this.shopManager = shopManager;
         }
 
         public abstract void Update();
@@ -153,6 +156,8 @@ namespace TextRPG
             if (itemManager.ItemAt(pos) != null)
                 available = false;
             if (player.isPlayerAt(pos))
+                available = false;
+            if (shopManager.keeperAt(pos) != null)
                 available = false;
             if(exit.isExitAt(pos, false))
                 available = false;

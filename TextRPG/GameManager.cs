@@ -26,6 +26,8 @@ namespace TextRPG
 
         public static QuestManager questManager; //manages la questa
 
+        public static ShopManager shopManager;
+
         static InputManager inputManager;
 
         public static Hud hud;
@@ -61,8 +63,11 @@ namespace TextRPG
             miniMap = new MiniMap(mapGen.makeMiniMap(), player);
             cam = new Camera(player, this);
             hud = new Hud(player, enemyManager, itemManager, this, questManager);
-            loadManager = new LoadManager(this, render, cam, exit, itemManager, enemyManager, miniMap, player, hud, map, mapGen, questManager);
+            shopManager = new ShopManager(map, render, itemManager, this, exit, enemyManager, inputManager, soundManager, hud);
+            loadManager = new LoadManager(this, render, cam, exit, itemManager, enemyManager, miniMap, player, hud, map, mapGen, questManager, shopManager);
             questManager.setPlayer(player); //don't ask
+            player.getShopManager(shopManager); //don't ask
+            enemyManager.getShopManager(shopManager); //don't ask
             
         }
 
@@ -78,6 +83,7 @@ namespace TextRPG
             player.Update();                //  Update everything
             cam.Update();                   //
             enemyManager.UpdateEnemies();   //
+            shopManager.UpdateShopkeepers();//
             if (Globals.currentFloor < 3) questManager.update();          //
             miniMap.Update();               //
         }
@@ -96,11 +102,12 @@ namespace TextRPG
 
         public void Draw()  //Draw Everything
         {
-            //render.ResetBackgrounds();  //
+            //render.ResetBackgrounds();//
             map.DrawMap();              //
             itemManager.Draw();         //  Set chars to arrays in rend
             player.Draw();              //
             enemyManager.DrawEnemies(); //
+            shopManager.DrawShopkeep(); //
             exit.Draw();                //
             hud.draw();                 //
             render.DrawToScreen();    //Adds to screen

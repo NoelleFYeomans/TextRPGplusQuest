@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
-    internal class QuestManager //full functionality!
+    internal class QuestManager //Add Item Quest! (last step)
     {
         //ints needed for quest generation
         private int questKillGoal; //goal for quest

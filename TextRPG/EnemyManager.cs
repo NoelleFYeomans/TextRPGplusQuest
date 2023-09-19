@@ -21,6 +21,7 @@ namespace TextRPG
         private Hud hud;
         private SoundManager soundManager;
         private QuestManager questManager;
+        private ShopManager shopManager;
 
         private int slimeCount; //int for counting slimes
         private int koboldCount; //int for counting kobolds
@@ -63,6 +64,11 @@ namespace TextRPG
             this.questManager = questManager;
         }
 
+        public void getShopManager(ShopManager shopManager)
+        {
+            this.shopManager = shopManager;
+        }
+
         public void GenerateEnemies(Player player)
         {
             Position tempPos;
@@ -79,20 +85,20 @@ namespace TextRPG
                     {
                         case 0:
                         case 1:
-                            enemies.Add(new Slime(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager, questManager));
+                            enemies.Add(new Slime(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager, questManager, shopManager));
                             slimeCount++;
                             placedEnemies++;
                             enemyMap[tempPos.x, tempPos.y] = enemies[placedEnemies - 1];
                             break;
                         case 2:
                         case 3:
-                            enemies.Add(new Kobold(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager, questManager));
+                            enemies.Add(new Kobold(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager, questManager, shopManager));
                             koboldCount++;
                             placedEnemies++;
                             enemyMap[tempPos.x, tempPos.y] = enemies[placedEnemies - 1];
                             break;
                         case 4:
-                            enemies.Add(new Goblin(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager, questManager));
+                            enemies.Add(new Goblin(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager, questManager, shopManager));
                             goblinCount++;
                             placedEnemies++;
                             enemyMap[tempPos.x, tempPos.y] = enemies[placedEnemies - 1];
@@ -114,7 +120,7 @@ namespace TextRPG
                 tempPos = new Position(random.Next(Constants.BossRoomWidth), random.Next(Constants.BossRoomHeight));
                 if ((Math.Abs(player.GetPos().x - tempPos.x) > 2 || Math.Abs(player.GetPos().y - tempPos.y) > 2) && map.isFloorAt(tempPos) && itemManager.ItemAt(tempPos) == null && exit.isExitAt(tempPos, false) == false && EnemyAt(tempPos, false) == null)
                 {
-                    enemies.Add(new Boss(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager, questManager));
+                    enemies.Add(new Boss(tempPos, map, player, this, itemManager, rend, manager, hud, exit, soundManager, questManager, shopManager));
                     placedBoss = true;
                     enemyMap[tempPos.x, tempPos.y] = enemies[0];
                 }
