@@ -32,7 +32,8 @@ namespace TextRPG
         }
         public void tradeStart()
         {
-            hud.SetMessage("Give Blood, Receive Power. Y/N"); 
+            hud.SetMessage("Give Blood, Receive Power. Y/N");
+            Console.ReadKey(true);
 
             trading = true; //will be used to prevent player movement, only Y/N
 
@@ -40,7 +41,7 @@ namespace TextRPG
 
             switch (key)
             {
-                case ConsoleKey.Y:
+                case ConsoleKey.Y: //this system will only recognize the last input before the interaction started
                     bloodTrade();
                     break;
                 case ConsoleKey.N:
@@ -55,7 +56,7 @@ namespace TextRPG
             {
                 trading = true;
 
-            } //if adjacent xd
+            } 
             else
             {
                 trading = false;
