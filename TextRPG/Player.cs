@@ -89,7 +89,6 @@ namespace TextRPG
             else hud.SetMessage("You killed " + enemy.GetName());
             if (XP >= Constants.playerXPThreshold)
             {
-                XP -= Constants.playerXPThreshold;
                 LevelUp();
             }
         }
@@ -137,6 +136,11 @@ namespace TextRPG
             return maxHP;
         }
 
+        public void setHP(int value)
+        {
+            HP = value;
+        }
+
         public int GetShield()
         {
             return shield;
@@ -157,7 +161,7 @@ namespace TextRPG
             return XP;
         }
 
-        private void LevelUp()
+        public void LevelUp()
         {
             hud.SetMessage("Player Leveled Up!");
             LVL++;
@@ -166,13 +170,13 @@ namespace TextRPG
             HP++;
             shield++;
             ATK++;
+            XP -= Constants.playerXPThreshold;
         }
 
         public void questLevelUp()
         {
             while (XP >= Constants.playerXPThreshold)
             {
-                XP -= Constants.playerXPThreshold;
                 LevelUp();
             }
         }

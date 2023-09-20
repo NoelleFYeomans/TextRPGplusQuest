@@ -23,7 +23,7 @@ namespace TextRPG
         {
             ClearInputBuffer();
 
-            key = Console.ReadKey(true).Key;
+            key = Console.ReadKey(true).Key; //overwrites the key every frame
 
             if (key == ConsoleKey.Escape)
             {

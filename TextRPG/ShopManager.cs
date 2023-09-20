@@ -60,10 +60,11 @@ namespace TextRPG
             toMove = !toMove;
         }
 
-        public void generateShopkeep(Player player)
+        public void generateShopkeep(Player player) //self explanitory
         {
-            Position tempPos;
             ClearShopkeep();
+            if (Globals.currentFloor == Constants.BossFloor) return; 
+            Position tempPos;
             int placedKeepers = 0;
             while (placedKeepers < Constants.keeperCap)
             {
@@ -84,7 +85,7 @@ namespace TextRPG
             return foundKeeper;
         }
 
-        public void ClearShopkeep()
+        public void ClearShopkeep() //removes all existing shopkeepers from reality
         {
             foreach (Shopkeep keeper in keepers)
             {

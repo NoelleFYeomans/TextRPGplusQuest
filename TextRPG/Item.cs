@@ -17,13 +17,16 @@ namespace TextRPG
 
         private SoundManager soundManager;
 
+        private QuestManager questManager;
 
-        public Item(string name, Position pos, Render rend, SoundManager soundManager)
+
+        public Item(string name, Position pos, Render rend, SoundManager soundManager, QuestManager questManager)
         {
             this.name = name;
             this.pos = pos;
             this.rend = rend;
             this.soundManager = soundManager;
+            this.questManager = questManager;
             switch (name)
             {
                 case Constants.healName:
@@ -45,12 +48,14 @@ namespace TextRPG
             switch (name)
             {
                 case Constants.healName:
+                    questManager.tryIncrementQuest(null, this);
                     player.Heal(Constants.healAmount);
                     break;
                 case Constants.ATKBuffName:
                     player.RaiseATK(Constants.ATKBuffAmount);
                     break;
                 case Constants.ShieldRepairName:
+                    questManager.tryIncrementQuest(null, this);
                     player.RestoreShield(Constants.shieldRepairAmount);
                     break;
             }

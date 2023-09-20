@@ -61,13 +61,13 @@ namespace TextRPG
             exit.PlaceExit(player);                              //  SetUp
             itemManager.GenerateItems(player);                   //
             enemyManager.GenerateEnemies(player);                //
-            shopManager.generateShopkeep(player);                //
-            if (Globals.currentFloor < 3) questManager.generateRandomQuest(enemyManager.getSlimeCount(), enemyManager.getKoboldCount(), enemyManager.getGoblinCount(), Globals.currentFloor); //feeding number of enemies into questManager
+            if (Globals.currentFloor < Constants.BossFloor) shopManager.generateShopkeep(player);                //
+            if (Globals.currentFloor < Constants.BossFloor) questManager.generateRandomQuest(enemyManager.getSlimeCount(), enemyManager.getKoboldCount(), enemyManager.getGoblinCount(), itemManager.getHealCount(), itemManager.getShieldCount(), Globals.currentFloor); //feeding number of enemies into questManager
             miniMap.Update();                                    //
             gManager.Draw();                                     //
         }                                                        //
 
-        public void BossSetUp()
+        public void BossSetUp() //stop stuff
         {
             render.setHud(hud);
             render.setCam(cam);
@@ -75,6 +75,8 @@ namespace TextRPG
             exit.hide();
             itemManager.GenerateItems(player);
             enemyManager.GenerateBoss(player);
+            shopManager.generateShopkeep(player);                //
+            questManager.generateRandomQuest(enemyManager.getSlimeCount(), enemyManager.getKoboldCount(), enemyManager.getGoblinCount(), itemManager.getHealCount(), itemManager.getShieldCount(), Globals.currentFloor);
             gManager.Draw();
         }
 

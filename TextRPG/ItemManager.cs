@@ -15,23 +15,45 @@ namespace TextRPG
         private Exit exit;
         private Hud hud;
         private SoundManager soundManager;
+        private QuestManager questManager;
+
+        private int healCount;
+        private int shieldCount;
+
+        public int getHealCount()
+        {
+            return healCount;
+        }
+
+        public int getShieldCount()
+        {
+            return shieldCount;
+        }
+
+        private void resetCount()
+        {
+            healCount = 0;
+            shieldCount = 0;
+        }
 
         public void SetHud(Hud hud)
         {
             this.hud = hud;
         }
 
-        public ItemManager(Map map, Render rend, GameManager gManager, Exit exit, SoundManager soundManager)
+        public ItemManager(Map map, Render rend, GameManager gManager, Exit exit, SoundManager soundManager, QuestManager questManager)
         {
             this.rend = rend;
             this.map = map;
             this.gManager = gManager;
             this.exit = exit;
             this.soundManager = soundManager;
+            this.questManager = questManager;
         }
 
         public void GenerateItems(Player player)
         {
+            resetCount();
             items = new List<Item>();
             itemMap = new Item[Constants.mapHeight * Constants.roomHeight, Constants.mapWidth * Constants.roomWidth];
             if (Globals.currentFloor < Constants.BossFloor)
@@ -46,11 +68,13 @@ namespace TextRPG
                         switch (rand.Next(0, 2))                                                                                                                                //
                         {                                                                                                                                                       //
                             case 0:                                                                                                                                             //
-                                items.Add(new Item(Constants.healName, pos, rend, soundManager));                                                                                            //  Generates a random item if spot isn't occupied
+                                items.Add(new Item(Constants.healName, pos, rend, soundManager, questManager));
+                                healCount++;                                                                                                                                    //  Generates a random item if spot isn't occupied
                                 itemMap[x, y] = items[items.Count - 1];
                                 break;                                                                                                                                          //
                             case 1:                                                                                                                                             //
-                                items.Add(new Item(Constants.ShieldRepairName, pos, rend, soundManager));                                                                                         //
+                                items.Add(new Item(Constants.ShieldRepairName, pos, rend, soundManager, questManager));
+                                shieldCount++;                                                                                                                                  //
                                 itemMap[x, y] = items[items.Count - 1];
                                 break;                                                                                                                                   //
                         }                                                                                                                                                       //
@@ -68,11 +92,11 @@ namespace TextRPG
                         switch (rand.Next(0, 2))                                                                                                                                //
                         {                                                                                                                                                       //
                             case 0:                                                                                                                                             //
-                                items.Add(new Item(Constants.healName, pos, rend, soundManager));                                                                                            //  Generates a random item if spot isn't occupied
+                                items.Add(new Item(Constants.healName, pos, rend, soundManager, questManager));                                                                                            //  Generates a random item if spot isn't occupied
                                 itemMap[x, y] = items[items.Count - 1];
                                 break;                                                                                                                                          //
                             case 1:                                                                                                                                             //
-                                items.Add(new Item(Constants.ShieldRepairName, pos, rend, soundManager));                                                                                    //
+                                items.Add(new Item(Constants.ShieldRepairName, pos, rend, soundManager, questManager));                                                                                    //
                                 itemMap[x, y] = items[items.Count - 1];
                                 break;                                                                                                                                          //
                         }                                                                                                                                                       //

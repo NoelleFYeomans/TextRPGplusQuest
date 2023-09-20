@@ -107,7 +107,7 @@ namespace TextRPG
             base.TakeDMG(DMG);
             if (HP <= 0)
             {
-                questManager.tryIncrementQuest(this);
+                questManager.tryIncrementQuest(this, null);
                 enemyManager.RemoveEnemy(this);
                 player.giveXP(XPReward);
             }

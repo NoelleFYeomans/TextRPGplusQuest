@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
-    internal class Shopkeep : GameCharacter //trade is broken ***TODO LIST***
+    internal class Shopkeep : GameCharacter //trade is broken(something to do with key being overwriten every frame) ***TODO LIST*** Add 2 more trades(simple)
     {
         private Player player;
         private ItemManager itemManager;
@@ -32,9 +32,11 @@ namespace TextRPG
         }
         public void tradeStart()
         {
-            hud.SetMessage("Give Blood, Receive Power. Y/N");
-            
-            key = inputManager.GetKey();
+            hud.SetMessage("Give Blood, Receive Power. Y/N"); 
+
+            trading = true; //will be used to prevent player movement, only Y/N
+
+            key = inputManager.GetKey(); //Need to stop overwriting GetKey every frame
 
             switch (key)
             {
@@ -42,6 +44,7 @@ namespace TextRPG
                     bloodTrade();
                     break;
                 case ConsoleKey.N:
+                    //check next option
                     noTrade();
                     break;
             }
@@ -51,6 +54,7 @@ namespace TextRPG
             if ((player.GetPos().x == (pos.x - 1)) && (player.GetPos().y == pos.y) || (player.GetPos().x == (pos.x + 1)) && (player.GetPos().y == pos.y) || (player.GetPos().x == pos.x) && (player.GetPos().y == (pos.y - 1)) || (player.GetPos().x == pos.x) && (player.GetPos().y == (pos.y + 1))) 
             {
                 trading = true;
+
             } //if adjacent xd
             else
             {
@@ -70,7 +74,7 @@ namespace TextRPG
                 //lmfao
             }
         }
-        public void bloodTrade()
+        public void bloodTrade()  //first trade
         {
             bloodPaid = (player.GetHealth() - 1);
 
@@ -78,12 +82,14 @@ namespace TextRPG
 
             player.giveXP(bloodPaid * Constants.powerOfBlood);
 
-            while (player.GetXP() > Constants.playerXPThreshold)
+            while (player.GetXP() >= Constants.playerXPThreshold)
             {
-                player.GetLevel();
+                player.LevelUp();
             }
 
             trading = false;
+
+            player.setHP(1); //ensures that player HP is 1 after the trade, counters the benefits of gaining HP on levelup
         }
         public void noTrade()
         {

@@ -12,7 +12,7 @@ namespace TextRPG
         public static Random rand = new Random();
 
         //Player Settings
-        public const int playerBaseHP = 50; //
+        public const int playerBaseHP = 5; //
         public const int playerBaseShield = 5;
         public const int playerBaseAttack = 20; //
         public const int playerXPThreshold = 25;
@@ -46,7 +46,7 @@ namespace TextRPG
         //Shopkeep Settings
         public const int shopkeepBaseHP = 1000;
         public const int shopkeepBaseAttack = 100;
-        public const int powerOfBlood = 5;
+        public const int powerOfBlood = 2;
         public const int keeperCap = 3;
         public static Tile shopkeepSprite = new Tile('$', ConsoleColor.DarkRed, ConsoleColor.Black);
         public const string shopkeepName = "Shopkeep";
@@ -66,9 +66,9 @@ namespace TextRPG
         public static Tile healSprite = new Tile('+', ConsoleColor.Green, ConsoleColor.Black);
         public static Tile ATKSprite = new Tile('*', ConsoleColor.Red, ConsoleColor.Black);
         public static Tile ShieldRepairSprite = new Tile('#', ConsoleColor.Blue, ConsoleColor.Black);
-        public const string healName = "Health Potion";
-        public const string ATKBuffName = "ATK Buff";
-        public const string ShieldRepairName = "Shield Repair";
+        public const string healName = "HealthPotion";
+        public const string ATKBuffName = "ATKBuff";
+        public const string ShieldRepairName = "ShieldRepair";
 
         //Map Settings
         public const ConsoleColor mapColor = ConsoleColor.DarkGray;

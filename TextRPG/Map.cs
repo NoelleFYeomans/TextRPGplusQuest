@@ -38,7 +38,7 @@ namespace TextRPG
         public bool isFloorAt(Position pos) //returns true if the provided coords is a floor
         {
             bool isFloor = false;
-            if (map[pos.y,pos.x] == ',') isFloor = true;
+            if (map[pos.y,pos.x] == ',') isFloor = true; //why do crash on boss floor
             return isFloor;
         }
 

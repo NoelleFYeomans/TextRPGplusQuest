@@ -57,7 +57,7 @@ namespace TextRPG
             inputManager = new InputManager(this);
             map = new Map(mapGen.RandomizeMap(), render);
             exit = new Exit(this, render, map);
-            itemManager = new ItemManager(map, render, this, exit, soundManager);
+            itemManager = new ItemManager(map, render, this, exit, soundManager, questManager);
             enemyManager = new EnemyManager(map, render, itemManager, this, exit, soundManager, questManager);
             player = new Player(new Position((Constants.mapWidth/2) * Constants.roomWidth + (Constants.roomWidth/2), (Constants.mapHeight / 2) * Constants.roomHeight + (Constants.roomHeight / 2)), map, enemyManager, render, this, inputManager, itemManager, exit, soundManager);
             miniMap = new MiniMap(mapGen.makeMiniMap(), player);
@@ -65,9 +65,9 @@ namespace TextRPG
             hud = new Hud(player, enemyManager, itemManager, this, questManager);
             shopManager = new ShopManager(map, render, itemManager, this, exit, enemyManager, inputManager, soundManager, hud);
             loadManager = new LoadManager(this, render, cam, exit, itemManager, enemyManager, miniMap, player, hud, map, mapGen, questManager, shopManager);
-            questManager.setPlayer(player); //don't ask
-            player.getShopManager(shopManager); //don't ask
-            enemyManager.getShopManager(shopManager); //don't ask
+            questManager.setPlayer(player);
+            player.getShopManager(shopManager);
+            enemyManager.getShopManager(shopManager);
             
         }
 
@@ -84,7 +84,7 @@ namespace TextRPG
             cam.Update();                   //
             enemyManager.UpdateEnemies();   //
             shopManager.UpdateShopkeepers();//
-            if (Globals.currentFloor < 3) questManager.update();          //
+            if (Globals.currentFloor < Constants.BossFloor) questManager.update();          //
             miniMap.Update();               //
         }
         
