@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,16 +19,24 @@ namespace TextRPG
         private Hud hud;
         private int XP = 0;
         private int LVL = 1;
+        private bool isAttack;
 
         public Player(Position pos, Map map, EnemyManager enemyManager, Render rend, GameManager manager, InputManager inputManager, ItemManager itemManager, Exit exit, SoundManager soundManager) : base(pos, Constants.playerBaseHP, Constants.playerBaseAttack, Constants.playerSprite, map, enemyManager, rend, manager, soundManager)
         {
             this.inputManager = inputManager;
             this.itemManager = itemManager;
             this.exit = exit;
+            isAttack = false;
+        }
+
+        public bool getIsAttack()
+        {
+            return isAttack;
         }
 
         public void Update()
         {
+            isAttack = false;
             key = inputManager.GetKey();                                                                //
             targetPos = pos;
             switch (key)                                                                                //
@@ -85,6 +94,7 @@ namespace TextRPG
         public void AttackEnemy(Enemy enemy) //Attacks the provided enemy and gives the interaction message
         {
             enemy.TakeDMG(ATK);
+            isAttack = true;
             if (enemy.GetHealth() > 0) hud.SetMessage("You attacked " + enemy.GetName());
             else hud.SetMessage("You killed " + enemy.GetName());
             if (XP >= Constants.playerXPThreshold)

@@ -21,7 +21,7 @@ namespace TextRPG
         private Exit exit;
         private Render rend;
 
-        private bool toMove;
+        //private bool toMove;
 
         public ShopManager(Map map, Render rend, ItemManager itemManager, GameManager manager, Exit exit, EnemyManager enemyManager, InputManager inputManager, SoundManager soundManager, Hud hud)
         {
@@ -35,7 +35,7 @@ namespace TextRPG
             this.rend = rend;
             this.hud = hud;
 
-            toMove = true;
+            //toMove = true;
         }
 
         public void DrawShopkeep()   //Save keeper to rend arrays
@@ -48,16 +48,12 @@ namespace TextRPG
 
         public void UpdateShopkeepers() //Move each keeper on every other turn
         {
-            if (toMove)
+            foreach (Shopkeep shopkeeper in keepers)
             {
-                foreach (Shopkeep shopkeeper in keepers)
-                {
-                    shopkeeperMap[shopkeeper.GetPos().x, shopkeeper.GetPos().y] = null;
-                    shopkeeper.update();
-                    shopkeeperMap[shopkeeper.GetPos().x, shopkeeper.GetPos().y] = shopkeeper;
-                }
+                shopkeeperMap[shopkeeper.GetPos().x, shopkeeper.GetPos().y] = null;
+                shopkeeper.update();
+                shopkeeperMap[shopkeeper.GetPos().x, shopkeeper.GetPos().y] = shopkeeper;
             }
-            toMove = !toMove;
         }
 
         public void generateShopkeep(Player player) //self explanitory

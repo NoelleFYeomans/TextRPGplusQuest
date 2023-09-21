@@ -62,19 +62,22 @@ namespace TextRPG
         {
             if (cFloor >= Constants.BossFloor) isBossFloor = true;
 
-            if ((hud.message == " ") && (!isQuestComplete) && (isBossFloor == false) && (questType == qType.Kill.ToString()))
+            if (player.getIsAttack()) return;
+
+            if ((!isQuestComplete) && (isBossFloor == false) && (questType == qType.Kill.ToString()))
             {
                 hud.SetMessage("Quest: Kill " + (qGoal - questCountTracker) + " " + questEnemy.ToString());
             }
-            else if ((hud.message == " ") && (!isQuestComplete) && (isBossFloor == false) && (questType == qType.Gather.ToString()))
+            else if ((!isQuestComplete) && (isBossFloor == false) && (questType == qType.Gather.ToString()))
             {
                 hud.SetMessage("Quest: Gather " + (qGoal - questCountTracker) + " " + questItem.ToString());
             }
-            else if ((hud.message == " ") && isQuestComplete && (isBossFloor == false))
+            else if (isQuestComplete && (isBossFloor == false))
             {
                 hud.SetMessage("You completed the quest! +" + questExpReward + " XP!");
             }
         }
+
         public void SetHud(Hud hud) //hud access
         {
             this.hud = hud;

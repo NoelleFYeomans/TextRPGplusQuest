@@ -17,7 +17,7 @@ namespace TextRPG
 
         public Tile[,] revealedMap = new Tile[Constants.mapHeight * 3, Constants.mapWidth * 3];
 
-        private bool[,] isRevealed = new bool[Constants.mapHeight, Constants.mapWidth];
+        private bool[,] isRevealed = new bool[Constants.mapHeight, Constants.mapWidth]; //if this entire array is true, then the map is fully revealed, could use for quest
 
         public MiniMap(Tile[,] map, Player player)
         {

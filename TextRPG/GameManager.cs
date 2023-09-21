@@ -80,11 +80,11 @@ namespace TextRPG
             }                               //
                                             //
             inputManager.Update();          //
-            player.Update();                //  Update everything
+            player.Update(); //this is where the player inputs their turn               //  Update everything
             cam.Update();                   //
-            enemyManager.UpdateEnemies();   //
-            shopManager.UpdateShopkeepers();//
             if (Globals.currentFloor < Constants.BossFloor) questManager.update();          //
+            enemyManager.UpdateEnemies();   //
+            shopManager.UpdateShopkeepers();//this is where the shopkeeper reacts, prompting another input(which waits until player turn) but then because of this the hud message is set back to quest text in the questmanager
             miniMap.Update();               //
         }
         

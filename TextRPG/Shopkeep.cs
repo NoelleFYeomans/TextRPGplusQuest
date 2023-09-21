@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
-    internal class Shopkeep : GameCharacter //trade is broken(something to do with key being overwriten every frame) ***TODO LIST*** Add 2 more trades(simple)
+    internal class Shopkeep : GameCharacter //***TODO LIST*** Add 2 more trades(simple)
     {
         private Player player;
         private ItemManager itemManager;
@@ -32,16 +32,11 @@ namespace TextRPG
         }
         public void tradeStart()
         {
-            hud.SetMessage("Give Blood, Receive Power. Y/N");
-            Console.ReadKey(true);
+            hud.SetMessage("Give Blood, Receive Power. Y/N"); //undo hardcode
 
-            trading = true; //will be used to prevent player movement, only Y/N
-
-            key = inputManager.GetKey(); //Need to stop overwriting GetKey every frame
-
-            switch (key)
+            switch (inputManager.GetKey())
             {
-                case ConsoleKey.Y: //this system will only recognize the last input before the interaction started
+                case ConsoleKey.Y:
                     bloodTrade();
                     break;
                 case ConsoleKey.N:
@@ -52,27 +47,22 @@ namespace TextRPG
         }
         public void update()
         {
-            if ((player.GetPos().x == (pos.x - 1)) && (player.GetPos().y == pos.y) || (player.GetPos().x == (pos.x + 1)) && (player.GetPos().y == pos.y) || (player.GetPos().x == pos.x) && (player.GetPos().y == (pos.y - 1)) || (player.GetPos().x == pos.x) && (player.GetPos().y == (pos.y + 1))) 
+            if (alive && (player.GetPos().x == (pos.x - 1)) && (player.GetPos().y == pos.y) || (player.GetPos().x == (pos.x + 1)) && (player.GetPos().y == pos.y) || (player.GetPos().x == pos.x) && (player.GetPos().y == (pos.y - 1)) || (player.GetPos().x == pos.x) && (player.GetPos().y == (pos.y + 1)) || (player.GetPos() == pos)) 
             {
-                trading = true;
-
-            } 
-            else
-            {
-                trading = false;
-            }
+                trading = true; //if the player is adjacent, trading starts, requires shopkeep to update *after* player
+            } //first thing the shopkeep needs to do 
 
             if (alive && !trading)
             {                                                                                                                               
-                randomMove();
+                randomMove(); 
             }
-            else if (alive && trading)
+            else if (alive && trading) 
             {
-                tradeStart();
+                tradeStart(); 
             }
             else
             {
-                //lmfao
+                //do nothing
             }
         }
         public void bloodTrade()  //first trade
@@ -90,11 +80,14 @@ namespace TextRPG
 
             trading = false;
 
+            hud.SetMessage("Be careful...");
+
             player.setHP(1); //ensures that player HP is 1 after the trade, counters the benefits of gaining HP on levelup
         }
         public void noTrade()
         {
             hud.SetMessage("Unfortunate.");
+            trading = false;
         }
         public bool IsSpaceAvailable(Position pos)
         {

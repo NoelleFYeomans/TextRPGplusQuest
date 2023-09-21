@@ -21,9 +21,9 @@ namespace TextRPG
 
         public void Update()    //Gets a key
         {
-            ClearInputBuffer();
+            ClearInputBuffer(); //overwrites the key every update
 
-            key = Console.ReadKey(true).Key; //overwrites the key every frame
+            key = Console.ReadKey(true).Key;
 
             if (key == ConsoleKey.Escape)
             {

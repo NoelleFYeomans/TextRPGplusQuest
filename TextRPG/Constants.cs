@@ -14,7 +14,7 @@ namespace TextRPG
         //Player Settings
         public const int playerBaseHP = 5; //
         public const int playerBaseShield = 5;
-        public const int playerBaseAttack = 20; //
+        public const int playerBaseAttack = 2; //
         public const int playerXPThreshold = 25;
         public static Tile playerSprite = new Tile('@', ConsoleColor.White, ConsoleColor.Black);
 

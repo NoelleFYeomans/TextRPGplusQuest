@@ -113,12 +113,19 @@ namespace TextRPG
             }
         }
 
-        public void AttackPlayer(Player target)
+        public void AttackPlayer(Player player) 
         {
-            target.TakeDMG(ATK);
-            if (target.GetHealth() <= 0) hud.SetMessage(name + " killed Player");
-            else if (hud.GetMessage() == " ") hud.SetMessage(name + " attacked Player");
-            else hud.SetMessage("Player and " + name + " both attacked");
+            player.TakeDMG(ATK);
+
+            if (player.GetHealth() <= 0) hud.SetMessage(name + " killed Player");
+
+            else if ((player.GetHealth() > 0) && (player.getIsAttack())) hud.SetMessage("Player and " + name + " both attacked");
+
+            else if ((player.GetHealth() > 0) && (!player.getIsAttack())) hud.SetMessage(name + " attacked Player");
+
+            else hud.SetMessage("Attack state error");
+
+
         }
 
         public bool CanSeePlayer()
