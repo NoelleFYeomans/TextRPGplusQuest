@@ -17,6 +17,7 @@ namespace TextRPG
         private EnemyManager enemyManager;
         private InputManager inputManager;
         private SoundManager soundManager;
+        private LoadManager loadManager;
         private Hud hud;
         private Exit exit;
         private Render rend;
@@ -36,6 +37,11 @@ namespace TextRPG
             this.hud = hud;
 
             //toMove = true;
+        }
+
+        public void getLoadManager(LoadManager loadManager)
+        {
+            this.loadManager = loadManager;
         }
 
         public void DrawShopkeep()   //Save keeper to rend arrays
@@ -67,7 +73,7 @@ namespace TextRPG
                 tempPos = new Position(random.Next(Constants.mapWidth * Constants.roomWidth), random.Next(Constants.mapHeight * Constants.roomHeight));
                 if ((Math.Abs(player.GetPos().x - tempPos.x) > 5 || Math.Abs(player.GetPos().y - tempPos.y) > 5) && map.isFloorAt(tempPos) && itemManager.ItemAt(tempPos) == null && exit.isExitAt(tempPos, false) == false && keeperAt(tempPos) == null)
                 {
-                    keepers.Add(new Shopkeep(tempPos, map, enemyManager, rend, gameManager, inputManager, itemManager, exit, soundManager, player, hud));   
+                    keepers.Add(new Shopkeep(tempPos, map, enemyManager, rend, gameManager, inputManager, itemManager, exit, soundManager, player, hud, loadManager));   
                     placedKeepers++;
                     shopkeeperMap[tempPos.x, tempPos.y] = keepers[placedKeepers - 1];
                 }

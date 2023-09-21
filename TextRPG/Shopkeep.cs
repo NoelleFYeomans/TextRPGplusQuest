@@ -7,40 +7,73 @@ using System.Threading.Tasks;
 
 namespace TextRPG
 {
-    internal class Shopkeep : GameCharacter //***TODO LIST*** Add 2 more trades(simple)
+    internal class Shopkeep : GameCharacter //***TODO LIST*** Add 2 more trades(almost done!)
     {
         private Player player;
         private ItemManager itemManager;
         private InputManager inputManager;
+        private LoadManager loadManager;
         private Exit exit;
         private Hud hud;
 
-        private ConsoleKey key;
-
         private bool trading;
         private int bloodPaid;
+        //private List<string> shopDialogue;
 
-        public Shopkeep(Position pos, Map map, EnemyManager enemyManager, Render rend, GameManager manager, InputManager inputManager, ItemManager itemManager, Exit exit, SoundManager soundManager, Player player, Hud hud) : base(pos, Constants.shopkeepBaseHP, Constants.shopkeepBaseAttack, Constants.shopkeepSprite, map, enemyManager, rend, manager, soundManager) 
+        private enum tradeType
+        {
+            power,
+            passage,
+            pennance,
+            
+        }
+
+        tradeType currentType;
+
+        public Shopkeep(Position pos, Map map, EnemyManager enemyManager, Render rend, GameManager manager, InputManager inputManager, ItemManager itemManager, Exit exit, SoundManager soundManager, Player player, Hud hud, LoadManager loadManager) : base(pos, Constants.shopkeepBaseHP, Constants.shopkeepBaseAttack, Constants.shopkeepSprite, map, enemyManager, rend, manager, soundManager) 
         {
             this.itemManager = itemManager;
             this.inputManager = inputManager;
+            this.loadManager = loadManager;
             this.exit = exit;
             this.player = player;
             this.hud = hud;
 
             trading = false;
+            currentType = tradeType.power;
         }
         public void tradeStart()
         {
-            hud.SetMessage("Give Blood, Receive Power. Y/N"); //undo hardcode
-
+            if (currentType == tradeType.power)
+            {
+                hud.SetMessage("Ye seeketh blood power? Y/N"); //accept blood for exp trade
+                tradeMethod();
+            }
+            else if (currentType == tradeType.passage)
+            {
+                hud.SetMessage("Ye seeketh safe passage? Y/N"); //accept blood & shield for instant passage to next floor
+                tradeMethod();
+            }
+            else if (currentType == tradeType.pennance)
+            {
+                hud.SetMessage("Ye seeketh soul pennance? Y/N"); //accept ???
+                tradeMethod();
+            }
+            else
+            {
+                currentType = tradeType.power;
+                hud.SetMessage("Begone desireless soul."); //accept no trade
+                trading = false;
+            }
+        }
+        private void tradeMethod()
+        {
             switch (inputManager.GetKey())
             {
                 case ConsoleKey.Y:
-                    bloodTrade();
+                    shopTrade(currentType);
                     break;
                 case ConsoleKey.N:
-                    //check next option
                     noTrade();
                     break;
             }
@@ -51,12 +84,16 @@ namespace TextRPG
             {
                 trading = true; //if the player is adjacent, trading starts, requires shopkeep to update *after* player
             } //first thing the shopkeep needs to do 
+            else
+            {
+                trading = false;
+            }
 
             if (alive && !trading)
             {                                                                                                                               
                 randomMove(); 
             }
-            else if (alive && trading) 
+            else if (alive && trading)
             {
                 tradeStart(); 
             }
@@ -65,28 +102,47 @@ namespace TextRPG
                 //do nothing
             }
         }
-        public void bloodTrade()  //first trade
+        private void shopTrade(tradeType tType)
         {
-            bloodPaid = (player.GetHealth() - 1);
-
-            player.TakeDMG(player.GetHealth() - 1);
-
-            player.giveXP(bloodPaid * Constants.powerOfBlood);
-
-            while (player.GetXP() >= Constants.playerXPThreshold)
+            if (tType == tradeType.power)
             {
-                player.LevelUp();
+                bloodPaid = (player.GetHealth() - 1);
+                player.giveXP(bloodPaid * Constants.powerOfBlood);
+                while (player.GetXP() >= Constants.playerXPThreshold) player.LevelUp();
+                player.setHP(1); //sets HP to 1
+                hud.SetMessage("Be careful..."); //end of trade 1
+                trading = false;
+            }
+            else if (tType == tradeType.passage)
+            {
+                player.TakeDMG((player.GetShield() + player.GetHealth() - 1));
+                hud.SetMessage("Ascend the towering heights."); //end of trade 2
+                trading = false;
+                //what can I do to instantly go up 1 floor
+            }
+            else if (tType == tradeType.pennance)
+            {
+                player.LevelDown();
+                //do something positive xd, maybe special win screen? maybe fully map the current floor
+                hud.SetMessage("No price too great..."); //end of trade 3
+                trading = false;
+            }
+            else
+            {
+                //future use?
             }
 
-            trading = false;
-
-            hud.SetMessage("Be careful...");
-
-            player.setHP(1); //ensures that player HP is 1 after the trade, counters the benefits of gaining HP on levelup
         }
         public void noTrade()
         {
-            hud.SetMessage("Unfortunate.");
+            if (currentType == tradeType.pennance)
+            {
+                hud.SetMessage("Begone desireless soul.");
+                currentType = tradeType.power;
+            }
+            else hud.SetMessage("Unfortunate...");
+            currentType++;
+
             trading = false;
         }
         public bool IsSpaceAvailable(Position pos)

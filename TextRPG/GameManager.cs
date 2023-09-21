@@ -68,6 +68,7 @@ namespace TextRPG
             questManager.setPlayer(player);
             player.getShopManager(shopManager);
             enemyManager.getShopManager(shopManager);
+            shopManager.getLoadManager(loadManager);
             
         }
 

@@ -19,7 +19,9 @@ namespace TextRPG
         private Hud hud;
         private int XP = 0;
         private int LVL = 1;
+
         private bool isAttack;
+        public bool isTrading; //not used yet
 
         public Player(Position pos, Map map, EnemyManager enemyManager, Render rend, GameManager manager, InputManager inputManager, ItemManager itemManager, Exit exit, SoundManager soundManager) : base(pos, Constants.playerBaseHP, Constants.playerBaseAttack, Constants.playerSprite, map, enemyManager, rend, manager, soundManager)
         {
@@ -181,6 +183,18 @@ namespace TextRPG
             shield++;
             ATK++;
             XP -= Constants.playerXPThreshold;
+        }
+
+        public void LevelDown()
+        {
+            hud.SetMessage("Player's soul was cleansed...");
+            LVL = 1;
+            maxHP = Constants.playerBaseHP;
+            maxShield = Constants.playerBaseShield;
+            HP = Constants.playerBaseHP;
+            shield = Constants.playerBaseShield;
+            ATK = Constants.playerBaseAttack;
+            XP = 0;
         }
 
         public void questLevelUp()

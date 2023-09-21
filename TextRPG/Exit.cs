@@ -9,7 +9,7 @@ namespace TextRPG
     internal class Exit
     {
 
-        Position pos;
+        public Position pos;
         Tile sprite = Constants.exitSprite;
         GameManager manager;
         Render rend;
