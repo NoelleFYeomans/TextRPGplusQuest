@@ -17,6 +17,8 @@ namespace TextRPG
         private Hud hud;
 
         private bool trading;
+        public bool ascend;
+        public bool penant;
         private int bloodPaid;
         //private List<string> shopDialogue;
 
@@ -40,6 +42,8 @@ namespace TextRPG
             this.hud = hud;
 
             trading = false;
+            ascend = false;
+            penant = false;
             currentType = tradeType.power;
         }
         public void tradeStart()
@@ -80,6 +84,7 @@ namespace TextRPG
         }
         public void update()
         {
+            ascend = false;
             if (alive && (player.GetPos().x == (pos.x - 1)) && (player.GetPos().y == pos.y) || (player.GetPos().x == (pos.x + 1)) && (player.GetPos().y == pos.y) || (player.GetPos().x == pos.x) && (player.GetPos().y == (pos.y - 1)) || (player.GetPos().x == pos.x) && (player.GetPos().y == (pos.y + 1)) || (player.GetPos() == pos)) 
             {
                 trading = true; //if the player is adjacent, trading starts, requires shopkeep to update *after* player
@@ -118,14 +123,15 @@ namespace TextRPG
                 player.TakeDMG((player.GetShield() + player.GetHealth() - 1));
                 hud.SetMessage("Ascend the towering heights."); //end of trade 2
                 trading = false;
-                //what can I do to instantly go up 1 floor
+                ascend = true;
             }
             else if (tType == tradeType.pennance)
             {
                 player.LevelDown();
                 //do something positive xd, maybe special win screen? maybe fully map the current floor
-                hud.SetMessage("No price too great..."); //end of trade 3
+                hud.SetMessage("Wash your hands of the blood."); //end of trade 3
                 trading = false;
+                penant = true;
             }
             else
             {

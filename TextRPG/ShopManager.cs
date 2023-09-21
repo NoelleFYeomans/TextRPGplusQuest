@@ -22,6 +22,9 @@ namespace TextRPG
         private Exit exit;
         private Render rend;
 
+        public bool ascending;
+        public bool penitent;
+
         //private bool toMove;
 
         public ShopManager(Map map, Render rend, ItemManager itemManager, GameManager manager, Exit exit, EnemyManager enemyManager, InputManager inputManager, SoundManager soundManager, Hud hud)
@@ -35,6 +38,9 @@ namespace TextRPG
             this.exit = exit;
             this.rend = rend;
             this.hud = hud;
+
+            ascending = false;
+            penitent = false;
 
             //toMove = true;
         }
@@ -58,12 +64,21 @@ namespace TextRPG
             {
                 shopkeeperMap[shopkeeper.GetPos().x, shopkeeper.GetPos().y] = null;
                 shopkeeper.update();
+                if (shopkeeper.ascend)
+                {
+                    ascending = true;
+                }
+                if (shopkeeper.penant)
+                {
+                    penitent = true;
+                }
                 shopkeeperMap[shopkeeper.GetPos().x, shopkeeper.GetPos().y] = shopkeeper;
             }
         }
 
         public void generateShopkeep(Player player) //self explanitory
         {
+            ascending = false;
             ClearShopkeep();
             if (Globals.currentFloor == Constants.BossFloor) return; 
             Position tempPos;

@@ -11,7 +11,8 @@ namespace TextRPG
         public enum EndCon
         {
             Win,
-            Lose
+            Lose,
+            Penitent
         }
 
         private SoundManager soundManager;
@@ -49,6 +50,20 @@ namespace TextRPG
                     Console.WriteLine(" ▓ ▓ ▓ ▓   ▓ ▓  ▓    ▓      ▓       ▓    ");
                     Console.WriteLine(" ▓ ▓ ▓  ▓▓▓  ▓   ▓   ▓    ▓▓▓▓▓ ▓▓▓▓   ▓ ");
                     Console.WriteLine("─────────────────────────────────────────");
+                    Console.WriteLine("        Press Any Key To Continue        ");
+                    Console.ReadKey(true);
+                    Console.Clear();
+                    break;
+                case EndCon.Penitent:
+                    soundManager.Play(SoundManager.Noise.win);
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Clear();
+                    Console.WriteLine(" ▓   ▓   ▓▓▓     ▓▓▓▓  ▓▓▓▓▓  ▓   ▓   ▓▓▓▓ ");
+                    Console.WriteLine(" ▓▓  ▓  ▓   ▓   ▓        ▓    ▓▓  ▓  ▓     ");
+                    Console.WriteLine(" ▓ ▓ ▓  ▓   ▓    ▓▓▓     ▓    ▓ ▓ ▓   ▓▓▓  ");
+                    Console.WriteLine(" ▓  ▓▓  ▓   ▓       ▓    ▓    ▓  ▓▓      ▓ ");
+                    Console.WriteLine(" ▓   ▓   ▓▓▓    ▓▓▓▓   ▓▓▓▓▓  ▓   ▓  ▓▓▓▓  ");
+                    Console.WriteLine("───────────────────────────────────────────");
                     Console.WriteLine("        Press Any Key To Continue        ");
                     Console.ReadKey(true);
                     Console.Clear();

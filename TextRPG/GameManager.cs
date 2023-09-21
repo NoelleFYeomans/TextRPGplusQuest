@@ -10,6 +10,7 @@ namespace TextRPG
     {
         private bool play = true;
         private bool win = false;
+        private bool repented = false;
 
         //Define Objects
         static Render render;
@@ -75,7 +76,7 @@ namespace TextRPG
         public void Update()
         {
             hud.SetMessage(" ");
-            if(player.isAlive() == false)   //
+            if (player.isAlive() == false)   //
             {                               //  End game if player is dead
                 play = false;               //
             }                               //
@@ -87,8 +88,18 @@ namespace TextRPG
             enemyManager.UpdateEnemies();   //
             shopManager.UpdateShopkeepers();//this is where the shopkeeper reacts, prompting another input(which waits until player turn) but then because of this the hud message is set back to quest text in the questmanager
             miniMap.Update();               //
+
+            if (shopManager.ascending)
+            {
+                loadManager.NextFloor(); //IT WORKS!
+            }
+            if (shopManager.penitent)
+            {
+                repented = true;
+            }
+            
         }
-        
+
         public void Play() //this is the game loop
         {
             startScreen.Display();
@@ -98,7 +109,7 @@ namespace TextRPG
                 Update();
                 Draw();
             }
-            Conclusion(win);
+            Conclusion(win, repented);
         }
 
         public void Draw()  //Draw Everything
@@ -120,9 +131,13 @@ namespace TextRPG
             play = false;
         }
 
-        public void Conclusion(bool win)
+        public void Conclusion(bool win, bool penance)
         {
-            if (win)
+            if (penance)
+            {
+                endScreen.Display(EndScreen.EndCon.Penitent);
+            }
+            else if (win)
             {
                 endScreen.Display(EndScreen.EndCon.Win);
             }

@@ -34,6 +34,7 @@ namespace TextRPG
 
         private MapGenerator mapGen;
 
+
         public LoadManager(GameManager gManager, Render render, Camera cam, Exit exit, ItemManager itemManager, EnemyManager enemyManager, MiniMap miniMap, Player player, Hud hud, Map map, MapGenerator mapGen, QuestManager questManager, ShopManager shopManager)
         {
             this.gManager = gManager;
