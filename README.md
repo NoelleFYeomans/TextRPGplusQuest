@@ -4,6 +4,8 @@
   
   The game is still in development, but it's currently functional. The game has start and end screens, multiple floors, and a boss who is pretty easy to cheese.
 
+Update: As a class assignment, I (Noelle) have been tasked with adding a Quest System & Shop into this existing game, made by Ryan (original developer). This has been added as of Sept 21st 2023
+
 ![Screenshot (8)](https://user-images.githubusercontent.com/113189775/231907326-a6f5f08b-4c66-449b-be81-4b094b2969a4.png)
 
 # Controls:
